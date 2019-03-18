@@ -1,4 +1,8 @@
 """
+Python Data Structures
+Data structure as a way of organizing and storing data such that we can
+access and modify it efficiently
+
 List / List Comprehension
 
 List comprehension is an elegant way to define and create lists based on existing lists
@@ -174,6 +178,359 @@ list_a = [1, 2, 3]
 square_cube_list = [ [a**2, a**3] for a in list_a]
 
 print(square_cube_list) # Output: [[1, 1], [4, 8], [9, 27]]
+
+
+"""
+
+To understand what yield does, you must understand what generators are.
+And before generators come iterables.
+
+Iterables
+When you create a list, you can read its items one by one. 
+Reading its items one by one is called iteration:
+"""
+
+
+mylist = [1, 2, 3]
+
+for i in mylist:
+    print(i)
+
+"""
+
+Generators are iterators, a kind of iterable you can only iterate over once. 
+Generators do not store all the values in memory, they generate the values on the fly
+
+"""
+
+mygenerator = (x*x for x in range(3))
+for i in mygenerator:
+    print(i)
+
+"""
+
+yield is a keyword that is used like return, except the function will return a generator
+
+"""
+
+
+def create_generator():
+    mylist = range(3)
+    for i in mylist:
+        yield i*i
+
+
+mygenerator = create_generator() # create a generator
+print(mygenerator) # mygenerator is an object!
+
+for i in mygenerator:
+    print(i)
+
+
+"""
+iterators are something which can be loop over i.e list is iteratable 
+
+List is not iterator because has not next method 
+i.e print(next([1, 2, 3, 4, 5])) error: 
+
+"""
+
+nums = [1, 2, 3, 4, 5]
+#
+# for num in nums:
+#     print(num)
+
+# print(dir(nums))
+# print(next(nums))
+
+"""
+user manually __iter__ method
+"""
+
+i_nums = nums.__iter__()
+# i_nums = iter(nums)
+# print(i_nums)
+# print(dir(i_nums))
+
+# print(next(i_nums))
+# print(next(i_nums))
+# print(next(i_nums))
+# print(next(i_nums))
+# print(next(i_nums))
+print('******************')
+
+"""
+The other charateristics of iterator is, they only move forward 
+"""
+while True:
+    try:
+        item = next(i_nums)
+        print(item)
+
+    except StopIteration:
+        break
+
+"""
+class base iterators 
+
+"""
+
+
+class MyRange:
+
+    def __init__(self, start, end):
+        self.value = start
+        self.end = end
+
+    """
+    make the class iterable using this method
+    """
+    def __iter__(self):
+        return self
+    """
+    add next method for iteration
+    """
+    def __next__(self):
+        if self.value >= self.end:
+            raise StopIteration
+        current = self.value
+        self.value += 1
+        return current
+
+
+c_nums = MyRange(1, 11)
+print("**************************")
+# for n in c_nums:
+#     print(n)
+
+print(next(c_nums))
+print(next(c_nums))
+print(next(c_nums))
+print(next(c_nums))
+print(next(c_nums))
+
+"""
+Generators are look like normal functions but instead return the result,
+they yield the value. 
+Generators are iterators as well but __iter__ snd __next__ methods are
+created automatically. 
+
+"""
+
+
+def my_generator(start, end):
+    current = start
+    while current < end:
+        yield current
+        current += 1
+
+
+print('************************')
+g_nums = my_generator(1, 11)
+# print(next(g_nums))
+# print(next(g_nums))
+
+for gn in g_nums:
+    print(gn)
+
+
+"""
+Iterators don't need to be end, they can so on forever. 
+ 
+"""
+
+
+def my_generator(start):
+    current = start
+    while True:
+        yield current
+        current += 1
+
+
+print('************************')
+# g_nums = my_generator(1)
+
+"""
+Another feature of iterator is, they take one value at time
+its handy when writing memory effient programs 
+
+"""
+
+
+"""
+
+Generators 
+
+This is more readable procedure 
+"""
+
+
+def square_numbers(s_nums):
+    # s_result = []
+
+    for n in s_nums:
+        yield (n * n)
+        # s_result.append(n * n)
+    # return s_result
+
+
+print("************************")
+my_s_nums = square_numbers([1, 2, 3, 4, 5])
+
+"""
+below print statement will be show: <generator object square_numbers at 0x0000022BC44E0BF8>,
+not the list because generators don't hold entire result in memory, it
+Yield one result at a time
+"""
+print(square_numbers(my_s_nums))
+
+# print(next(my_s_nums))
+# print(next(my_s_nums))
+for i in my_s_nums:
+    print(i)
+
+"""
+
+But instead of above we also can write more effetient code using List Comprehension
+ 
+
+"""
+
+
+my_lc_nums = [x * x for x in [1, 2, 3, 4, 5]]
+print('*******************')
+for j in my_lc_nums:
+    print(j)
+
+
+"""
+Generator example
+
+"""
+
+
+my_lc_nums = (x * x for x in [1, 2, 3, 4, 5])
+
+"""
+
+Converting generators to list, will loose performance which we have got from generators
+
+"""
+
+list_nums_from_gen = list(my_lc_nums)
+
+print('*******************')
+for j in my_lc_nums:
+    print(j)
+
+"""
+Real example regarding performance 
+
+"""
+
+
+"""
+pip install memory_profiler
+2)include it in your code like this
+
+import memory_profiler as mem_profile
+3)change code
+
+mem_profile.memory_usage_psutil() to memory_usage()
+
+4)convert you print statements like this
+
+print('Memory (Before): ' + str(mem_profile.memory_usage()) + 'MB' )
+print('Memory (After) : ' + str(mem_profile.memory_usage()) + 'MB')
+print ('Took ' + str(t2-t1) + ' Seconds')
+
+ref: https://stackoverflow.com/questions/41191412/no-module-named-mem-profile
+
+"""
+import memory_profiler as mem_profile
+import random
+import time
+
+names = ['Mian', 'Amir', 'Khan', 'Mian Amir', 'Amir Savvy']
+majors = ['Math', 'English', 'Software', 'Web', 'ML', 'AI']
+print('*********************************************************************')
+print('Memory (Before): ' + str(mem_profile.memory_usage()) + 'MB')
+
+
+def people_list(num_people):
+    i_result = []
+    for z in range(num_people):
+        person = {
+            'id': z,
+            'name': random.choice(names),
+            'major': random.choice(majors)
+        }
+
+        i_result.append(person)
+
+    return i_result
+
+
+def people_generator(num_people):
+    for k in range(num_people):
+        person = {
+            'id': k,
+            'name': random.choice(names),
+            'major': random.choice(majors)
+        }
+
+        yield person
+
+
+"""
+Memory (Before): [16.734375]MB
+Memory (After) : [289.36328125]MB
+Took: 1552894704.703367 seconds
+
+"""
+
+
+# t1 = time.clock()
+# people = people_list(1000000)
+# t2 = time.time()
+
+
+"""
+
+Memory (Before): [16.75]MB
+Memory (After) : [16.76171875]MB
+Took: 1552894785.937366 seconds
+
+"""
+
+t1 = time.clock()
+people = people_generator(1000000)
+t2 = time.time()
+
+print('Memory (After) : ' + str(mem_profile.memory_usage()) + 'MB')
+print('Took: {} seconds'.format(t2 - t1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
