@@ -1,4 +1,6 @@
 """
+http://pep8online.com/checkresult
+
 Python Data Structures
 Data structure as a way of organizing and storing data such that we can
 access and modify it efficiently
@@ -509,6 +511,204 @@ t2 = time.time()
 
 print('Memory (After) : ' + str(mem_profile.memory_usage()) + 'MB')
 print('Took: {} seconds'.format(t2 - t1))
+
+
+"""
+
+Lambda, filter, reduce and map
+
+"""
+
+
+f = lambda x, y: x + y
+print('**************')
+print(f(1, 1))
+
+"""
+The advantage of the lambda operator can be seen when it is used in combination
+with the map() function. map() is a function with two arguments
+r = map(func, seq)
+
+"""
+
+
+# showing difference between def() and lambda().
+x = lambda a: a + 10
+print(x(5))
+
+x1 = lambda a, b : a * b
+print(x1(5, 6))
+
+def myfunc(n):
+  return lambda a : a * n
+
+mydoubler = myfunc(2)
+
+print(mydoubler(11))
+
+
+"""
+https://www.youtube.com/watch?v=DEwgZNC-KyE
+System level script 
+ 
+OS module in python provides functions for interacting with the operating system.
+OS, comes under Python’s standard utility modules
+
+"""
+
+
+import os, glob
+os.chdir('E:\certificates-badges')
+
+print('*******************************')
+for file in glob.glob("*.png"):
+    print(file)
+
+
+print('***System Level Info***')
+print(os.getcwd())
+print(os.name)
+print(os.listdir('E:\Amir'))
+
+
+"""
+
+FIZZ / BUZZ
+
+"""
+
+
+def fizz_buzz(start, end):
+    for num in range(start, end):
+        if num % 5 == 0 and num % 3 == 0:
+            print("FizzBuzz")
+        elif num % 3 == 0:
+            print("Fizz")
+        else:
+            print("Buzz")
+
+
+print("***FizzBuzz***")
+fizz_buzz(1, 101)
+
+
+"""
+
+Fibonacci Series
+
+"""
+
+
+def fibonacci_series(start, end):
+    a, b = 0, 1
+    for i in range(start, end):
+        print(a)
+        a, b = b, a + b
+
+
+print("***fibonacci_series***")
+# fibonacci_series(0, 10)
+
+
+"""
+
+Fibonacci Series using Generators
+
+"""
+
+
+def fibonacci_series_generators(num_range):
+    a, b = 0, 1
+    for i in range(0, num_range):
+        yield "{}: {}".format(i + 1, a)
+        a, b = b, a + b
+
+
+print("***fibonacci_series_generators***")
+for item in fibonacci_series_generators(12):
+    print(item)
+
+
+""" 
+Python recursive functions
+
+"""
+
+
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+
+print(fact(0))
+print(fact(5))
+
+
+import sys
+
+
+sys.setrecursionlimit(3000)
+
+
+def fact1(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact1(n - 1)
+
+
+# print(fact1(2000))
+
+# An example of a recursive function to
+# find the factorial of a number
+
+def calc_factorial(x):
+    """This is a recursive function
+    to find the factorial of an integer"""
+
+    if x == 1:
+        return 1
+    else:
+        return (x * calc_factorial(x-1))
+
+num = 4
+print("The factorial of", num, "is", calc_factorial(num))
+
+
+"""
+OOP Concepts
+
+"""
+
+
+class Person(object):
+
+    def __init__(self, name):
+        self.name = name
+
+    def reveal_identity(self):
+        print("My name is {}".format(self.name))
+
+
+class SuperHero(Person):
+
+    def __init__(self, name, hero_name):
+        self.hero_name = hero_name
+        # invoking the __init__ of the parent class
+        Person.__init__(self, name)
+
+    def reveal_identity(self):
+        Person.reveal_identity(self)
+        print("... And I am {}".format(self.hero_name))
+
+
+
+super_hero = SuperHero("Mian", "Amir Savvy")
+
+super_hero.reveal_identity()
+
 
 
 
