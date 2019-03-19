@@ -675,6 +675,148 @@ def calc_factorial(x):
 
 num = 4
 print("The factorial of", num, "is", calc_factorial(num))
+print("****************")
+
+print('Even Numbers')
+my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_list = [m for m in my_list if m % 2 == 0]
+
+print(new_list)
+
+"""
+
+Dictionary Comprehension
+
+"""
+
+names = ['Mian', 'Amir', 'Mian Amir', 'Amir Khan', 'Savvy','Amir Savvy']
+skills = ['Software', 'Web', 'Games', 'Networks', 'Machine Learning', 'Data Sciences']
+my_dic = {}
+print("Dictionary with Zip Func.")
+# for name, skill in zip(names, skills):
+#     my_dic[name] = skill
+#
+# print(my_dic)
+
+# Using dictionary comprehension
+
+my_dic = {name: skill for name, skill in zip(names, skills) if name != 'Mian Amir'}
+
+print(my_dic)
+
+"""
+Sets are smae like lists but have only unique values 
+Set comprehension
+
+"""
+
+print("Sets")
+
+nums = [1, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 6, 7, 7, 8, 8, 9, 9]
+# my_set = set()
+# for n in nums:
+#     my_set.add(n)
+
+# Using set comprehension
+
+my_set = {n for n in nums}
+
+print(my_set)
+
+"""
+Generators expressions
+I want to n*n for each in n in nums
+
+"""
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+# def gen_func(nums):
+#     for n in nums:
+#         yield (n * n)
+#
+#
+# my_gen = gen_func(nums)
+#
+# print("Generator func")
+# for i in my_gen:
+#     print(i)
+
+# Using generator expression
+
+my_gen = (n * n for n in nums)
+
+print("Generator Expression")
+for i in my_gen:
+    print(i)
+
+
+"""
+
+Named Tuple
+
+"""
+
+from collections import namedtuple
+
+# color = (55, 155, 255)
+
+# Dictionary color = {'red': 55, 'green': 155, 'blue': 255}
+print('Named tuple')
+
+Color = namedtuple('Color', ['red', 'green', 'blue'])
+color = Color(55, 155, 255)  # Optional Color(red = 55, green = 155, blue = 255)
+
+print(color.red)
+
+
+
+"""
+Decorators with arguments 
+"""
+
+
+def prefix_decorator(prefix):
+
+    def decorator_function(original_function):
+
+        def wrapper_function(*args, **kwargs):
+            print(prefix, "Executed before", original_function.__name__)
+            result = original_function(*args, **kwargs)
+            print(prefix, "Executed after", original_function.__name__)
+            return result
+
+        return wrapper_function
+
+    return decorator_function
+
+
+@prefix_decorator('TESTING:')
+def display_info(name, age):
+    print("display_info ran with arguments ({}, {})". format(name, age))
+
+
+print('Display info using Decorator with arguments')
+display_info('Amir Savvy', 26)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 """
@@ -704,10 +846,14 @@ class SuperHero(Person):
         print("... And I am {}".format(self.hero_name))
 
 
-
 super_hero = SuperHero("Mian", "Amir Savvy")
-
 super_hero.reveal_identity()
+
+"""
+
+Advance OOP Concepts
+
+"""
 
 
 
